@@ -1,7 +1,7 @@
 import typing as t
 
 import httpx
-import orjson
+import json
 import pytest
 
 from bitcoinrpc import BitcoinRPC
@@ -22,7 +22,7 @@ async def test_two_clients_dont_share_counter(rpc_config: t.Dict[str, t.Any]) ->
         Hook that stores the serialized request before it is sent over the wire.
         """
         nonlocal logs
-        logs.append(orjson.loads(request.content))
+        logs.append(json.loads(request.content))
 
     url, auth = rpc_config["url"], rpc_config["auth"]
     client1 = httpx.AsyncClient(

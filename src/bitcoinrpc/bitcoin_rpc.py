@@ -3,7 +3,7 @@ from types import TracebackType
 from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union, cast
 
 import httpx
-import orjson
+import json
 from typing_extensions import Literal, Self
 
 from bitcoinrpc._exceptions import RPCError
@@ -126,7 +126,7 @@ class BitcoinRPC:
         """
         response = await self.client.post(
             url=self.url,
-            content=orjson.dumps(
+            content=json.dumps(
                 {
                     "jsonrpc": "2.0",
                     "id": self._counter(),
@@ -141,7 +141,7 @@ class BitcoinRPC:
         if response.content == b"":
             response.raise_for_status()
 
-        content: Response = orjson.loads(response.content)
+        content: Response = json.loads(response.content)
         # Based on the presence of "error" key in the deserialized dictionary
         # and its value, either:
         #   - throw an `RPCError` exception containing the `id` of the request and
