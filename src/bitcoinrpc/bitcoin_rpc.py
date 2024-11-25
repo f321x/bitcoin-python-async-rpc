@@ -62,10 +62,12 @@ class BitcoinRPC:
         self,
         url: str,
         client: httpx.AsyncClient,
+        wallet_name: Optional[str] = None,
         counter: Optional[Callable[[], RequestId]] = None,
     ) -> None:
         self._url = url
         self._client = client
+        self._wallet_name = wallet_name
 
         if counter is None:
             self._counter = _next_request_id_factory()
@@ -125,7 +127,7 @@ class BitcoinRPC:
             see `httpx.Request`.
         """
         response = await self.client.post(
-            url=self.url,
+            url=self.url + f"/wallet/{self._wallet_name}" if self._wallet_name else "",
             content=json.dumps(
                 {
                     "jsonrpc": "2.0",
