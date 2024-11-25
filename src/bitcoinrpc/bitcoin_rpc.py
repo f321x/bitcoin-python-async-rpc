@@ -46,7 +46,7 @@ def _next_request_id_factory() -> Callable[[], RequestId]:
 
 
 class BitcoinRPC:
-    __slots__ = ("_url", "_client", "_counter")
+    __slots__ = ("_url", "_client", "_counter", "_wallet_name")
     """
     Class representing a JSON-RPC client of a Bitcoin node.
 
