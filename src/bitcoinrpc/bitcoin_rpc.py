@@ -90,6 +90,7 @@ class BitcoinRPC:
         cls,
         url: str,
         auth: Optional[Tuple[str, str]],
+        wallet_name: Optional[str] = None,
         **options: Any,
     ) -> Self:
         """
@@ -103,7 +104,7 @@ class BitcoinRPC:
             "content-type": "application/json",
             **dict(options.pop("headers", {})),
         }
-        return cls(url, client=httpx.AsyncClient(auth=auth, headers=headers, **options))
+        return cls(url, client=httpx.AsyncClient(auth=auth, headers=headers, **options), wallet_name=wallet_name)
 
     @property
     def url(self) -> str:
